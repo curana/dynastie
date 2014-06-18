@@ -12,11 +12,23 @@ class DNSchange:
 		self.myip 	  = myip
 		self.offline  = offline
 
-	def publish(self):		
+	def publish(self):
+		#
+		# Replace the keyname and secret with appropriate values for your
+		# configuration.
+		#	
 		keyring = dns.tsigkeyring.from_text({
 		    'host-example.' : 'XXXXXXXXXXXXXXXXXXXXXX=='
 		})
 
-		update = dns.update.Update(self.hostname, keyring=keyring)
-		update.replace('host', 300, 'a', self.myip)
-		response = dns.query.tcp(update, '127.0.0.1')
+		#
+		# Replace "example.com" with your domain, and "MY_HOSTNAME" with your hostname.
+		#
+		update = dns.update.Update('example.com', keyring=keyring)
+		update.replace('MY_HOSTNAME', 300, 'A', self.myip)
+
+
+		#
+		# Replace "127.0.0.1" with the IP address of your master server.
+		#
+		response = dns.query.tcp(update, '127.0.0.1', timeout=10)
