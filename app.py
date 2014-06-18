@@ -17,4 +17,7 @@ def post_index():
 	dnschange = DNSchange('example.com', '127.0.0.1')
 
 if __name__ == '__main__':
-	app.run()
+	app.run(
+		host = '127.0.0.1',
+		port = 80
+	)
